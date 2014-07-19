@@ -18,6 +18,8 @@ namespace sbTOCUpdater
     {
         List<TocFile> tocList;
 
+        Regex regex = new Regex(@"^##\sInterface:\s([0-9]*)", RegexOptions.Compiled);
+
         public MainWindow()
         {
             InitializeComponent();
@@ -58,6 +60,9 @@ namespace sbTOCUpdater
                 if (value == null || value == string.Empty)
                 {
                     RegistryKey localKey64 = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
+
+                    localKey64 = localKey64.OpenSubKey(key);
+
                     if (localKey64 != null)
                     {
                         value = localKey64.GetValue("InstallPath").ToString();
@@ -95,7 +100,8 @@ namespace sbTOCUpdater
 
         public void scan()
         {
-            Regex regex = new Regex(@"^##\sInterface:\s([0-9]*)", RegexOptions.Compiled);
+            
+            tocList = new List<TocFile>();
 
             string rootDirectory = null;
 
@@ -103,12 +109,14 @@ namespace sbTOCUpdater
             {
                 rootDirectory = tbFolder.Text;
             }
-            else
-            {
-                //rootDirectory = @"C:\World of Warcraft Beta\Interface\AddOns\_DevPad";
-            }
 
-            tocList = new List<TocFile>();
+            
+
+            /*
+             * if(rootDirectory != null && !rootDirectory.ToLower().Contains(@"interface\addons")) {
+             *  rootDirectory = rootDirectory + @"\Interface\AddOns\";
+             *}
+             */
 
             if (!Directory.Exists(rootDirectory))
             {
@@ -120,6 +128,8 @@ namespace sbTOCUpdater
             {
                 tbFolder.BackColor = Color.White;
             }
+
+            
 
             foreach (string tmpFilename in Directory.GetFiles(rootDirectory, "*.toc", SearchOption.AllDirectories))
             {
@@ -138,7 +148,7 @@ namespace sbTOCUpdater
 
                     if (match.Success)
                     {
-                        Console.WriteLine("MATSCH!!!! {0} - {1}", lineNumber, tmpFilename);
+                        // Console.WriteLine("MATSCH!!!! {0} - {1}", lineNumber, tmpFilename);
 
                         TocFile tocFile = new TocFile(tmpFilename, match.Groups[1].Value, lineNumber);
                         tocList.Add(tocFile);

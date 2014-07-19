@@ -168,7 +168,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(275, 13);
             this.label2.TabIndex = 8;
-            this.label2.Text = "v0.1, 19.07.2014, Steffen \'smb\' Buehl <sb@sbuehl.com>";
+            this.label2.Text = "v0.2, 19.07.2014, Steffen \'smb\' Buehl <sb@sbuehl.com>";
             // 
             // linkLabel1
             // 
@@ -203,7 +203,7 @@
             this.Name = "MainWindow";
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "sbTOCUpdater - v0.1";
+            this.Text = "sbTOCUpdater - v0.2";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
