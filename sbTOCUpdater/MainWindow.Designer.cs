@@ -41,8 +41,8 @@
             this.tbInterfaceNumber = new System.Windows.Forms.TextBox();
             this.lblInterfaceNumber = new System.Windows.Forms.Label();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lblAbout2 = new System.Windows.Forms.Label();
+            this.lblAbout1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -160,36 +160,36 @@
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // label2
+            // lblAbout2
             // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.LightGray;
-            this.label2.Location = new System.Drawing.Point(504, 467);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(275, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "v0.2, 19.07.2014, Steffen \'smb\' Buehl <sb@sbuehl.com>";
+            this.lblAbout2.AutoSize = true;
+            this.lblAbout2.ForeColor = System.Drawing.Color.LightGray;
+            this.lblAbout2.Location = new System.Drawing.Point(504, 467);
+            this.lblAbout2.Name = "lblAbout2";
+            this.lblAbout2.Size = new System.Drawing.Size(275, 13);
+            this.lblAbout2.TabIndex = 8;
+            this.lblAbout2.Text = "v0.2, 19.07.2014, Steffen \'smb\' Buehl <sb@sbuehl.com>";
             // 
-            // linkLabel1
+            // lblAbout1
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.ForeColor = System.Drawing.Color.LightGray;
-            this.linkLabel1.LinkColor = System.Drawing.Color.LightGray;
-            this.linkLabel1.Location = new System.Drawing.Point(504, 449);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(220, 13);
-            this.linkLabel1.TabIndex = 10;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "https://github.com/sbWoW/sbTOCUpdater/";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.lblAbout1.AutoSize = true;
+            this.lblAbout1.ForeColor = System.Drawing.Color.LightGray;
+            this.lblAbout1.LinkColor = System.Drawing.Color.LightGray;
+            this.lblAbout1.Location = new System.Drawing.Point(504, 449);
+            this.lblAbout1.Name = "lblAbout1";
+            this.lblAbout1.Size = new System.Drawing.Size(220, 13);
+            this.lblAbout1.TabIndex = 10;
+            this.lblAbout1.TabStop = true;
+            this.lblAbout1.Text = "https://github.com/sbWoW/sbTOCUpdater/";
+            this.lblAbout1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 484);
-            this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblAbout1);
+            this.Controls.Add(this.lblAbout2);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.lblInterfaceNumber);
             this.Controls.Add(this.tbInterfaceNumber);
@@ -204,6 +204,7 @@
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "sbTOCUpdater - v0.2";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -226,8 +227,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DGFileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn DGInterfaceVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Label lblAbout2;
+        private System.Windows.Forms.LinkLabel lblAbout1;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using sbTOCUpdater.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,13 +19,39 @@ namespace sbTOCUpdater
     {
         List<TocFile> tocList;
 
-        Regex regex = new Regex(@"^##\sInterface:\s([0-9]*)", RegexOptions.Compiled);
+        static protected string regKey = @"sbTOCUpdater";
+
+        static protected string regValueNameVersion = "lastUsedVersion";
+
+        static protected string regValueNameDirectory = "lastUsedDirectory";
+
+        protected Regex regex = new Regex(@"^##\sInterface:\s([0-9]*)", RegexOptions.Compiled);
 
         public MainWindow()
         {
             InitializeComponent();
-            
         }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            saveSettings();
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            btnUpdate.Enabled = false;
+            if (!loadSettings())
+            {
+                tbFolder.Text = guessWoWBetaDirectory();
+                tbInterfaceNumber.Text = Resources.DefaultInterfaceNumber;
+            }
+
+            this.Text = String.Format("sbTOCUpdater - v{0}", Resources.Version);
+            lblAbout2.Text = String.Format("v{0}, {1:dd.MM.yyyy}, Steffen 'smb' Buehl <sb@sbuehl.com>", Resources.Version, Resources.BuildDate);
+
+        }
+
+
 
         private void btnFolderSelection_Click(object sender, EventArgs e)
         {
@@ -40,7 +67,56 @@ namespace sbTOCUpdater
             btnUpdate.Enabled = false;
         }
 
-        protected string getRegKey(string key)
+        protected void setRegKeySimple(string key, string valueName, object value)
+        {
+            RegistryKey baseKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry32);
+            RegistryKey softwareKey = baseKey.OpenSubKey("Software", true);
+
+            if (softwareKey == null)
+            {
+                baseKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
+                softwareKey = baseKey.OpenSubKey("Software", true);
+            }
+
+            if (softwareKey != null)
+            {
+                RegistryKey orgKey = softwareKey.CreateSubKey("sbi");
+                RegistryKey targetKey = orgKey.CreateSubKey(key);
+                
+                targetKey.SetValue(valueName, value);
+            }           
+        }
+
+        protected string getRegKeySimple(string key, string valueName)
+        {
+            string retValue = null;
+
+            RegistryKey baseKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry32);
+            RegistryKey softwareKey = baseKey.OpenSubKey("Software", true);
+
+            if (softwareKey == null)
+            {
+                baseKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
+                softwareKey = baseKey.OpenSubKey("Software", true);
+            }
+
+            if (softwareKey != null)
+            {
+                RegistryKey orgKey = softwareKey.CreateSubKey("sbi");
+                RegistryKey targetKey = orgKey.CreateSubKey(key);
+
+                object objValue = targetKey.GetValue(valueName);
+
+                if (objValue != null)
+                {
+                    retValue = targetKey.GetValue(valueName).ToString();
+                }
+            }
+
+            return retValue;
+        }
+
+        protected string getRegKey(string key, string valueName)
         {
             string value = string.Empty;
 
@@ -54,7 +130,7 @@ namespace sbTOCUpdater
 
                 if (localKey32 != null)
                 {
-                    value = localKey32.GetValue("InstallPath").ToString();
+                    value = localKey32.GetValue(valueName).ToString();
                 }
 
                 if (value == null || value == string.Empty)
@@ -65,15 +141,58 @@ namespace sbTOCUpdater
 
                     if (localKey64 != null)
                     {
-                        value = localKey64.GetValue("InstallPath").ToString();
+                        value = localKey64.GetValue(valueName).ToString();
                     }
 
                 }
 
-                Console.WriteLine(String.Format("InstallPath [value64]: {0}", value));
+                Console.WriteLine(String.Format("{0} [value64]: {1}", valueName, value));
             }
 
             return value;
+        }
+
+        protected bool saveSettings()
+        {
+            bool retValue = false;
+
+            if (isValidInterfaceNumber(tbInterfaceNumber.Text))
+            {
+                setRegKeySimple(regKey, regValueNameVersion, this.tbInterfaceNumber.Text);
+
+                retValue = true;
+            }
+            if (this.tbFolder.Text != "" && Directory.Exists(this.tbFolder.Text))
+            {
+                setRegKeySimple(regKey, regValueNameDirectory, this.tbFolder.Text);
+
+                retValue = true;
+            }
+
+            return retValue;
+        }
+
+        protected bool loadSettings()
+        {
+            bool retValue = false;
+
+            string lastVersion = getRegKeySimple(regKey, regValueNameVersion);
+            string lastDirectory = getRegKeySimple(regKey, regValueNameDirectory);
+
+            if (isValidInterfaceNumber(lastVersion))
+            {
+                this.tbInterfaceNumber.Text = lastVersion;
+
+                retValue = true;
+            }
+            if (lastDirectory != null && lastDirectory != "" && Directory.Exists(lastDirectory))
+            {
+                this.tbFolder.Text = lastDirectory;
+
+                retValue = true;
+            }
+
+            return retValue;
         }
 
 
@@ -86,7 +205,7 @@ namespace sbTOCUpdater
 
             foreach (string key in regKeys)
             {
-                string betaDirectory = getRegKey(key);
+                string betaDirectory = getRegKey(key, "InstallPath");
 
                 if (betaDirectory != null && !betaDirectory.Equals(""))
                 {
@@ -180,20 +299,22 @@ namespace sbTOCUpdater
         private void btnScan_Click(object sender, EventArgs e)
         {
 
-            scan();
+            scan();            
 
         }
 
-        private void MainWindow_Load(object sender, EventArgs e)
+        private bool isValidInterfaceNumber(string interfaceNumber)
         {
-            btnUpdate.Enabled = false;
-            tbFolder.Text = guessWoWBetaDirectory();
+            return (interfaceNumber != null
+                && interfaceNumber != ""
+                && System.Convert.ToInt32(interfaceNumber) < 99999
+                && System.Convert.ToInt32(interfaceNumber) > 10000);
         }
 
        
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (tbInterfaceNumber.Text == null || tbInterfaceNumber.Text == "" || System.Convert.ToInt32(tbInterfaceNumber.Text) > 99999 || System.Convert.ToInt32(tbInterfaceNumber.Text) < 10000)
+            if (isValidInterfaceNumber(tbInterfaceNumber.Text))
             {
                 tbInterfaceNumber.BackColor = Color.Red;
             }
@@ -250,7 +371,7 @@ namespace sbTOCUpdater
             if (e.Link.LinkData != null)
                 url = e.Link.LinkData.ToString();
             else
-                url = linkLabel1.Text.Substring(e.Link.Start, e.Link.Length);
+                url = lblAbout1.Text.Substring(e.Link.Start, e.Link.Length);
 
             if (!url.Contains("://"))
                 url = "http://" + url;
@@ -259,6 +380,7 @@ namespace sbTOCUpdater
             Process.Start(si);
         }
 
+    
  
     }
 }
