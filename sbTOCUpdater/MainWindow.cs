@@ -314,7 +314,7 @@ namespace sbTOCUpdater
        
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (isValidInterfaceNumber(tbInterfaceNumber.Text))
+            if (!isValidInterfaceNumber(tbInterfaceNumber.Text))
             {
                 tbInterfaceNumber.BackColor = Color.Red;
             }
