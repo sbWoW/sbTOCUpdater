@@ -49,6 +49,8 @@ namespace sbTOCUpdater
             this.Text = String.Format("sbTOCUpdater - v{0}", Resources.Version);
             lblAbout2.Text = String.Format("v{0}, {1:dd.MM.yyyy}, Steffen 'smb' Buehl <sb@sbuehl.com>", Resources.Version, Resources.BuildDate);
 
+            tbInterfaceNumber.Tag = "invalid interface number";
+            tbFolder.Tag = "invalid directory";
         }
 
 
@@ -239,13 +241,15 @@ namespace sbTOCUpdater
 
             if (!Directory.Exists(rootDirectory))
             {
-                tbFolder.BackColor = Color.Red;
+                //tbFolder.BackColor = Color.Red;
+                setTbError(tbFolder, true);
 
                 return;
             }
             else
             {
-                tbFolder.BackColor = Color.White;
+                setTbError(tbFolder, false);
+                //tbFolder.BackColor = Color.White;
             }
 
             
@@ -311,16 +315,35 @@ namespace sbTOCUpdater
                 && System.Convert.ToInt32(interfaceNumber) > 10000);
         }
 
-       
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private void setTbError(TextBox tb, Boolean isError)
         {
-            if (!isValidInterfaceNumber(tbInterfaceNumber.Text))
+            if (isError)
             {
-                tbInterfaceNumber.BackColor = Color.Red;
+                this.errorProvider1.SetIconPadding(tb, -20);
+                errorProvider1.SetError(tb, (string)tb.Tag);
+                tb.BackColor = Color.FromArgb(255, 191, 201);
             }
             else
             {
-                tbInterfaceNumber.BackColor = Color.White;
+                errorProvider1.SetError(tb, null);
+                tb.BackColor = Color.White;
+            }
+        }
+       
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            
+            if (!isValidInterfaceNumber(tbInterfaceNumber.Text))
+            {
+
+                //tbInterfaceNumber.BackColor = Color.Red;
+                //errorProvider1.SetError(tbInterfaceNumber, (string)tbInterfaceNumber.Tag);
+                setTbError(tbInterfaceNumber, true);
+            }
+            else
+            {
+                setTbError(tbInterfaceNumber, false);
+                //tbInterfaceNumber.BackColor = Color.White;
 
                 foreach (TocFile tocFile in tocList)
                 {

@@ -28,22 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnScan = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tbFolder = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnFolderSelection = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.DGPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DGFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DGInterfaceVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tbInterfaceNumber = new System.Windows.Forms.TextBox();
             this.lblInterfaceNumber = new System.Windows.Forms.Label();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.lblAbout2 = new System.Windows.Forms.Label();
             this.lblAbout1 = new System.Windows.Forms.LinkLabel();
+            this.DGPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DGFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DGInterfaceVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnScan
@@ -96,42 +99,11 @@
             this.DGFileName,
             this.DGInterfaceVersion,
             this.Status});
-            this.dataGridView1.Location = new System.Drawing.Point(13, 46);
+            this.dataGridView1.Location = new System.Drawing.Point(2, 46);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(763, 400);
+            this.dataGridView1.Size = new System.Drawing.Size(774, 400);
             this.dataGridView1.TabIndex = 4;
-            // 
-            // DGPath
-            // 
-            this.DGPath.DataPropertyName = "ParentFolder";
-            this.DGPath.HeaderText = "Path";
-            this.DGPath.Name = "DGPath";
-            this.DGPath.ReadOnly = true;
-            this.DGPath.Width = 300;
-            // 
-            // DGFileName
-            // 
-            this.DGFileName.DataPropertyName = "TocName";
-            this.DGFileName.HeaderText = "FileName";
-            this.DGFileName.Name = "DGFileName";
-            this.DGFileName.ReadOnly = true;
-            this.DGFileName.Width = 200;
-            // 
-            // DGInterfaceVersion
-            // 
-            this.DGInterfaceVersion.DataPropertyName = "InterfaceVersion";
-            this.DGInterfaceVersion.HeaderText = "Interface Version";
-            this.DGInterfaceVersion.Name = "DGInterfaceVersion";
-            this.DGInterfaceVersion.ReadOnly = true;
-            this.DGInterfaceVersion.Width = 120;
-            // 
-            // Status
-            // 
-            this.Status.DataPropertyName = "Status";
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
             // 
             // tbInterfaceNumber
             // 
@@ -183,6 +155,43 @@
             this.lblAbout1.Text = "https://github.com/sbWoW/sbTOCUpdater/";
             this.lblAbout1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // DGPath
+            // 
+            this.DGPath.DataPropertyName = "ParentFolder";
+            this.DGPath.HeaderText = "Path";
+            this.DGPath.Name = "DGPath";
+            this.DGPath.ReadOnly = true;
+            this.DGPath.Width = 300;
+            // 
+            // DGFileName
+            // 
+            this.DGFileName.DataPropertyName = "TocName";
+            this.DGFileName.HeaderText = "FileName";
+            this.DGFileName.Name = "DGFileName";
+            this.DGFileName.ReadOnly = true;
+            this.DGFileName.Width = 200;
+            // 
+            // DGInterfaceVersion
+            // 
+            this.DGInterfaceVersion.DataPropertyName = "InterfaceVersion";
+            this.DGInterfaceVersion.HeaderText = "Interface Version";
+            this.DGInterfaceVersion.Name = "DGInterfaceVersion";
+            this.DGInterfaceVersion.ReadOnly = true;
+            this.DGInterfaceVersion.Width = 115;
+            // 
+            // Status
+            // 
+            this.Status.DataPropertyName = "Status";
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            this.Status.Width = 95;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -207,6 +216,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -223,12 +233,13 @@
         private System.Windows.Forms.Label lblInterfaceNumber;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label lblAbout2;
+        private System.Windows.Forms.LinkLabel lblAbout1;
         private System.Windows.Forms.DataGridViewTextBoxColumn DGPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn DGFileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn DGInterfaceVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
-        private System.Windows.Forms.Label lblAbout2;
-        private System.Windows.Forms.LinkLabel lblAbout1;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
 

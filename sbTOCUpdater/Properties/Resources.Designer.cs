@@ -61,7 +61,7 @@ namespace sbTOCUpdater.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 21.07.2014.
+        ///   Looks up a localized string similar to 06.08.2014.
         /// </summary>
         public static string BuildDate {
             get {
@@ -79,7 +79,7 @@ namespace sbTOCUpdater.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0.3.
+        ///   Looks up a localized string similar to 0.4.
         /// </summary>
         public static string Version {
             get {

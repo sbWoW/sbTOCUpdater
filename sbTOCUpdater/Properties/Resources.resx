@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BuildDate" xml:space="preserve">
-    <value>21.07.2014</value>
+    <value>06.08.2014</value>
   </data>
   <data name="DefaultInterfaceNumber" xml:space="preserve">
     <value>60000</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>0.3</value>
+    <value>0.4</value>
   </data>
 </root>
